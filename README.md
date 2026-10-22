@@ -21,49 +21,33 @@ El archivo de datos no se incluye en este repositorio por su tamaño. Descárgue
 * Bibliotecas de Python: pandas y matplotlib
 
 ## Ejecución
-```bash
 spark-submit fraude_batch.py creditcard_transactions.csv 500.00
 
 Argumentos:
-
-    Ruta del archivo CSV de transacciones.
-
-    Umbral de monto en USD para la detección de riesgo.
+1. Ruta del archivo CSV de transacciones.
+2. Umbral de monto en USD para la detección de riesgo.
 
 Si no se indican argumentos, el programa usa los valores por defecto establecidos en el script.
 
-Qué hace el código
+## Qué hace el código
+1. **Carga:** Lee el archivo CSV de transacciones en un DataFrame de PySpark, mostrando el esquema inicial y el número de registros totales.
+2. **Limpieza:** Elimina registros con valores nulos en columnas críticas (como Amount y Time) y filtra montos negativos o no válidos.
+3. **Transformación:** Estructura y procesa las variables numéricas y temporales para optimizar el análisis de los datos.
+4. **Análisis exploratorio:** Calcula estadísticas descriptivas, agrupa los registros según el estado de la transacción (Class: 0 para legítimas, 1 para fraudulentas) y obtiene los montos promedio.
+5. **Detección de riesgo:** Aplica reglas condicionales basadas en umbrales de alto riesgo para identificar, clasificar y contabilizar operaciones sospechosas.
 
-    Carga: Lee el archivo CSV de transacciones en un DataFrame de PySpark, mostrando el esquema inicial y el número de registros totales.
-
-    Limpieza: Elimina registros con valores nulos en columnas críticas (como Amount y Time) y filtra montos negativos o no válidos.
-
-    Transformación: Estructura y procesa las variables numéricas y temporales para optimizar el análisis de los datos.
-
-    Análisis exploratorio: Calcula estadísticas descriptivas, agrupa los registros según el estado de la transacción (Class: 0 para legítimas, 1 para fraudulentas) y obtiene los montos promedio.
-
-    Detección de riesgo: Aplica reglas condicionales basadas en umbrales de alto riesgo para identificar, clasificar y contabilizar operaciones sospechosas.
-
-Salida
-
+## Salida
 Las tablas de resultados analíticos y resúmenes de transacciones se muestran directamente en la consola de manera estructurada:
+* **Distribución por Estado (Class):** Total de transacciones y monto promedio por categoría legítima vs. fraudulenta.
+* **Resumen de Alto Riesgo:** Conteo de transacciones que superan el umbral crítico establecido.
 
-    Distribución por Estado (Class): Total de transacciones y monto promedio por categoría legítima vs. fraudulenta.
+## Resultados principales
+* **Procesamiento Masivo:** Capacidad de gestionar cientos de miles o millones de registros históricos superando las limitaciones de los sistemas tradicionales.
+* **Segmentación Eficiente:** Identificación rápida de patrones de comportamiento anómalos y transacciones con montos elevados que requieren auditoría o alerta temprana.
 
-    Resumen de Alto Riesgo: Conteo de transacciones que superan el umbral crítico establecido.
+## Limitaciones
+* La precisión del análisis depende de la calidad y anonimización previa de las variables del dataset (como las transformaciones PCA aplicadas).
+* El procesamiento batch se enfoca exclusivamente en el análisis histórico; para la detección en tiempo real se complementa con arquitecturas de Streaming (como Apache Kafka).
 
-Resultados principales
-
-    Procesamiento Masivo: Capacidad de gestionar cientos de miles o millones de registros históricos superando las limitaciones de los sistemas tradicionales.
-
-    Segmentación Eficiente: Identificación rápida de patrones de comportamiento anómalos y transacciones con montos elevados que requieren auditoría o alerta temprana.
-
-Limitaciones
-
-    La precisión del análisis depende de la calidad y anonimización previa de las variables del dataset (como las transformaciones PCA aplicadas).
-
-    El procesamiento batch se enfoca exclusivamente en el análisis histórico; para la detección en tiempo real se complementa con arquitecturas de Streaming (como Apache Kafka).
-
-Autora
-
-Estudiante UNAD – Tutor: Angie Johanna Laguna Martinez – UNAD, 2026.
+## Autora
+Estudiante UNAD –Angie Johanna Laguna Martinez Tutor: Elkin Andrés Ladino Ordoñez – UNAD, 2026.
